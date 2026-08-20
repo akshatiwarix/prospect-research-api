@@ -37,6 +37,19 @@ for (let mask = 1; mask < 1 << CAPABILITY_IDS.length; mask += 1) {
   SUBSETS.push(CAPABILITY_IDS.filter((_, index) => (mask & (1 << index)) !== 0));
 }
 
+/**
+ * The document's field tree is inferred from a schema whose leaves carry
+ * refinements, so `z.infer` widens them to `{}` and every read needs a
+ * narrowing. Doing that once, here, beats scattering casts through the
+ * invariants — and the runtime shape is guaranteed by invariant 2, which
+ * validates every box against `anyFieldSchema` before anything reads one.
+ */
+type Box = { state: FieldState; reason: FieldReason; value?: unknown; retry_after_s?: number };
+
+function boxAt(fields: Record<string, Record<string, unknown>>, capability: string, key: string): Box | undefined {
+  return fields[capability]?.[key] as Box | undefined;
+}
+
 const failures: string[] = [];
 const fail = (invariant: string, detail: string) => failures.push(`[${invariant}] ${detail}`);
 
@@ -98,7 +111,7 @@ for (const entry of ROSTER) {
       // ── 3. The dependency edge ───────────────────────────────────────────
       const technographics = document.capabilities.technographics;
       if (technographics?.reason === "ok") {
-        const domain = document.fields.identity?.domain;
+        const domain = boxAt(document.fields, "identity", "domain");
         if (domain?.state !== "resolved") {
           fail(
             "3 dependency-edge",
@@ -223,8 +236,8 @@ for (const scenario of SCENARIOS) {
 
   const problems: string[] = [];
   for (const expectation of scenario.expect) {
-    const actual: { state: FieldState; reason: FieldReason } | undefined = expectation.path
-      ? document.fields[expectation.capability]?.[expectation.path]
+    const actual: Box | undefined = expectation.path
+      ? boxAt(document.fields, expectation.capability, expectation.path)
       : document.capabilities[expectation.capability];
 
     if (!actual) {
@@ -260,8 +273,8 @@ for (const probe of VOCABULARY_PROBES) {
     { request_id: REQUEST_ID, transport: fixtureTransport(probeStore(probe)), clock: virtualClock() },
   );
 
-  const actual: { state: FieldState; reason: FieldReason } | undefined = probe.expect.path
-    ? document.fields[probe.expect.capability]?.[probe.expect.path]
+  const actual: Box | undefined = probe.expect.path
+    ? boxAt(document.fields, probe.expect.capability, probe.expect.path)
     : document.capabilities[probe.expect.capability];
 
   const ok = actual?.state === probe.expect.state && actual?.reason === probe.expect.reason;
@@ -277,7 +290,7 @@ for (const probe of VOCABULARY_PROBES) {
 
   // The rate-limit probe also has to prove Retry-After survives the trip.
   if (probe.reason === "upstream_rate_limited") {
-    const box = document.fields[probe.expect.capability]?.segment;
+    const box = boxAt(document.fields, probe.expect.capability, "segment");
     if (box?.retry_after_s !== 37) {
       fail("probe upstream_rate_limited", `Retry-After did not reach the box (got ${String(box?.retry_after_s)})`);
     }
