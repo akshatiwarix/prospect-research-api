@@ -30,13 +30,26 @@ const countsSchema = z.object({
   unsupported: z.number().int().nonnegative().optional(),
 });
 
-const hypothesisSchema = z.object({
+/**
+ * `looseObject`, and `reason` nullable, for two reasons both found by recording
+ * the live corpus rather than by reasoning about it.
+ *
+ * Day 007 sends `reason: null` on some emitted hypotheses — Tessellate's first
+ * one, as it happens — and a plain `z.string().optional()` rejected it. A `null`
+ * where a string was optional is additive noise, not a broken contract, and
+ * tolerant read means accepting it.
+ *
+ * `looseObject` because this value is **forwarded** into a box rather than
+ * consumed. A stripping schema validates fine and then silently deletes
+ * `links`, `citations` and `sentence` from what the caller receives — turning
+ * tolerant read into lossy read. Unknown keys are ignored for *validation* and
+ * preserved in the payload.
+ */
+const hypothesisSchema = z.looseObject({
   id: z.string().min(1),
   verdict: z.string().optional(),
   sentence: z.string().optional(),
-  reason: z.string().optional(),
-  window: z.unknown().optional(),
-  trigger: z.unknown().optional(),
+  reason: z.string().nullish(),
 });
 
 const whyNowBoundarySchema = z.object({

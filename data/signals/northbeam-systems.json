@@ -1,0 +1,493 @@
+{
+ "accounts": [
+  {
+   "id": "a002",
+   "name": "Northbeam Systems",
+   "domain": "northbeam-systems.example",
+   "industry": "Industrial Software",
+   "fit": {
+    "score": 88,
+    "band": "strong"
+   }
+  }
+ ],
+ "observations": [
+  {
+   "account_id": "a002",
+   "observed_at": "2026-02-20",
+   "state": {
+    "headcount": 210,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a002",
+   "observed_at": "2026-03-06",
+   "state": {
+    "headcount": 210,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a002",
+   "observed_at": "2026-03-20",
+   "state": {
+    "headcount": 210,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a002",
+   "observed_at": "2026-04-03",
+   "state": {
+    "headcount": 210,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a002",
+   "observed_at": "2026-04-17",
+   "state": {
+    "headcount": 210,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a002",
+   "observed_at": "2026-05-01",
+   "state": {
+    "headcount": 210,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a002",
+   "observed_at": "2026-05-15",
+   "state": {
+    "headcount": 210,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a002",
+   "observed_at": "2026-06-12",
+   "state": {
+    "headcount": 210,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a002",
+   "observed_at": "2026-07-10",
+   "state": {
+    "headcount": 210,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a002",
+   "observed_at": "2026-07-24",
+   "state": {
+    "headcount": 262,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     },
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": [
+    {
+     "kind": "job_post",
+     "observed_at": "2026-07-12",
+     "title": "Senior Backend Engineer",
+     "department": "Engineering",
+     "location": "Austin, TX"
+    },
+    {
+     "kind": "job_post",
+     "observed_at": "2026-07-15",
+     "title": "Staff Platform Engineer",
+     "department": null,
+     "location": "Berlin, DE"
+    },
+    {
+     "kind": "job_post",
+     "observed_at": "2026-07-17",
+     "title": "Engineering Manager",
+     "department": "Engineering",
+     "location": "Austin, TX"
+    },
+    {
+     "kind": "job_post",
+     "observed_at": "2026-07-19",
+     "title": "Senior Backend Engineer",
+     "department": "Engineering",
+     "location": "Remote — US"
+    },
+    {
+     "kind": "job_post",
+     "observed_at": "2026-07-22",
+     "title": "Staff Platform Engineer",
+     "department": "Engineering",
+     "location": "Remote — US"
+    }
+   ]
+  },
+  {
+   "account_id": "a002",
+   "observed_at": "2026-08-05",
+   "state": {
+    "headcount": 262,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     },
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": [
+    {
+     "kind": "job_post",
+     "observed_at": "2026-07-27",
+     "title": "Senior Backend Engineer",
+     "department": "Engineering",
+     "location": "Berlin, DE"
+    },
+    {
+     "kind": "job_post",
+     "observed_at": "2026-07-30",
+     "title": "Staff Platform Engineer",
+     "department": "Engineering",
+     "location": "Austin, TX"
+    },
+    {
+     "kind": "job_post",
+     "observed_at": "2026-08-02",
+     "title": "Engineering Manager",
+     "department": "Engineering",
+     "location": "Austin, TX"
+    }
+   ]
+  },
+  {
+   "account_id": "a002",
+   "observed_at": "2026-08-12",
+   "state": {
+    "headcount": 288,
+    "funding_stage": "series_b",
+    "funding_total_usd": 52000000,
+    "stack": [
+     "Warehowse",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "product",
+      "title": "VP Product"
+     },
+     {
+      "fn": "sales",
+      "title": "CRO"
+     },
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     }
+    ],
+    "tagline": "Operations software for plants",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": [
+    {
+     "kind": "job_post",
+     "observed_at": "2026-08-07",
+     "title": "Analytics Engineer",
+     "department": "Data",
+     "location": "Berlin, DE"
+    },
+    {
+     "kind": "job_post",
+     "observed_at": "2026-08-10",
+     "title": "Staff Data Engineer",
+     "department": "Data",
+     "location": "Toronto, ON"
+    }
+   ]
+  }
+ ],
+ "watchlist": {
+  "name": "Growth motion",
+  "families": {
+   "money": {
+    "cap": 20,
+    "half_life_days": 60
+   },
+   "people": {
+    "cap": 30,
+    "half_life_days": 45
+   },
+   "growth": {
+    "cap": 30,
+    "half_life_days": 30
+   },
+   "technology": {
+    "cap": 12,
+    "half_life_days": 30
+   },
+   "market": {
+    "cap": 8,
+    "half_life_days": 21
+   }
+  },
+  "weights": {
+   "funding_round": 25,
+   "exec_change": 26,
+   "exec_change_loss": 16,
+   "key_role_opened": 20,
+   "hiring_surge": 16,
+   "headcount_growth": 14,
+   "headcount_contraction": 22,
+   "stack_dropped": 18,
+   "stack_added": 8,
+   "stack_added_competitor": 14,
+   "positioning_change": 6,
+   "product_launch": 7
+  },
+  "thresholds": {
+   "surge_min_posts": 3,
+   "surge_window_days": 45,
+   "growth_min_pct": 15,
+   "contraction_min_pct": 10,
+   "refractory_days": 45,
+   "escalation_factor": 2,
+   "horizon_half_lives": 4,
+   "trend_window_days": 14
+  },
+  "relevant_functions": [
+   "engineering",
+   "data",
+   "revops",
+   "people"
+  ],
+  "competitor_tools": [
+   "Rivalytics",
+   "Sentrylight",
+   "Datastream Pro"
+  ],
+  "complement_tools": [
+   "Warehowse",
+   "Modelform",
+   "Terraflow",
+   "Podship",
+   "Pagelight"
+  ],
+  "act_now_at": 20
+ }
+}

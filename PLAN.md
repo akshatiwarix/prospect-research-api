@@ -561,6 +561,34 @@ a tier-1 capability then honestly reports `not_attempted/deadline` instead of
 being handed a request with a negative budget. Both reasons are now reachable
 and both are tested.
 
+**A6 — three boundary bugs found by recording, and one scenario refined, at
+step 8.** `scripts/record.mts` captures every roster binding from the live
+deployments, and running it invalidated three boundary schemas written from
+memory of a sample response:
+
+- A `verified` verdict from Day 013 carries `domain`, a single string. An
+  `ambiguous` one carries `survivors`, a list. Reading `survivors[0]` reported
+  `unknown` for **every company that actually resolved** — a bug that a
+  hand-written fixture passes happily.
+- `entity` is `null` when Day 013 has never heard of the company, and
+  `capturedAt` is `null` when it holds no dated snapshot. Both were required.
+  Requiring them reported a working upstream's honest "I do not know this
+  company" as a contract violation.
+- Day 007 sends `reason: null` on some emitted hypotheses.
+
+A fourth change came out of the same pass: schemas for values that are
+**forwarded** into a box now use `looseObject` rather than the stripping default.
+A stripping schema validates and then silently deletes the upstream keys it does
+not know, which turns tolerant read into lossy read. Unknown keys are ignored for
+validation and preserved in the payload.
+
+Scenario 5 was refined. The plan asked for `absent` versus `unknown` on the same
+property from two capabilities, and no such pair exists in the real corpora
+without fabricating one. What does exist, on Tessellate: `domain` is `absent`,
+`legal_name` is `unknown`, and Day 014 resolves all five attributes — three kinds
+of answer in one document, none averaged. Observed rather than constructed, which
+is worth more than matching the original phrasing.
+
 ## The 26 settled decisions
 
 1. **Thesis:** the response envelope is the product; sibling composition is its

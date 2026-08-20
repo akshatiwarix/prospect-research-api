@@ -27,13 +27,14 @@ import type { Capability, FieldMap } from "./types";
  * coverage matrix rather than papered over.
  */
 
-const claimSchema = z.object({
+// Forwarded verbatim; see the note in `why-now.ts`.
+const claimSchema = z.looseObject({
   id: z.string().optional(),
   text: z.string().optional(),
   document_id: z.string().optional(),
 });
 
-const sectionSchema = z.object({
+const sectionSchema = z.looseObject({
   section: z.string().min(1),
   questions: z.array(z.unknown()),
 });

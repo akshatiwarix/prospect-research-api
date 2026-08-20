@@ -25,12 +25,14 @@ import type { Capability, FieldMap } from "./types";
  * reaches is not a reason to widen it.
  */
 
-const claimSchema = z.object({
+// Forwarded verbatim, so loose rather than stripping — see the note in
+// `why-now.ts`. Every key is optional because Day 008's claim shape varies by
+// surface and this capability reads none of them; it passes them on.
+const claimSchema = z.looseObject({
   technology: z.string().optional(),
   name: z.string().optional(),
   category: z.string().optional(),
   surface: z.string().optional(),
-  evidence: z.unknown().optional(),
 });
 
 const technographicsBoundarySchema = z.object({

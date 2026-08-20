@@ -1,0 +1,468 @@
+{
+ "accounts": [
+  {
+   "id": "a003",
+   "name": "Steadymark Health",
+   "domain": "steadymark-health.example",
+   "industry": "Healthcare IT",
+   "fit": {
+    "score": 95,
+    "band": "strong"
+   }
+  }
+ ],
+ "observations": [
+  {
+   "account_id": "a003",
+   "observed_at": "2026-02-20",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a003",
+   "observed_at": "2026-03-06",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a003",
+   "observed_at": "2026-03-20",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a003",
+   "observed_at": "2026-04-03",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a003",
+   "observed_at": "2026-04-17",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a003",
+   "observed_at": "2026-05-01",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a003",
+   "observed_at": "2026-05-15",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a003",
+   "observed_at": "2026-06-12",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a003",
+   "observed_at": "2026-07-10",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a003",
+   "observed_at": "2026-07-24",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a003",
+   "observed_at": "2026-08-05",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a003",
+   "observed_at": "2026-08-12",
+   "state": {
+    "headcount": 320,
+    "funding_stage": "series_c",
+    "funding_total_usd": 140000000,
+    "stack": [
+     "Warehowse",
+     "Modelform",
+     "Terraflow"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "CTO"
+     },
+     {
+      "fn": "data",
+      "title": "VP Data"
+     },
+     {
+      "fn": "security",
+      "title": "CISO"
+     }
+    ],
+    "tagline": "Clinical data infrastructure",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  }
+ ],
+ "watchlist": {
+  "name": "Growth motion",
+  "families": {
+   "money": {
+    "cap": 20,
+    "half_life_days": 60
+   },
+   "people": {
+    "cap": 30,
+    "half_life_days": 45
+   },
+   "growth": {
+    "cap": 30,
+    "half_life_days": 30
+   },
+   "technology": {
+    "cap": 12,
+    "half_life_days": 30
+   },
+   "market": {
+    "cap": 8,
+    "half_life_days": 21
+   }
+  },
+  "weights": {
+   "funding_round": 25,
+   "exec_change": 26,
+   "exec_change_loss": 16,
+   "key_role_opened": 20,
+   "hiring_surge": 16,
+   "headcount_growth": 14,
+   "headcount_contraction": 22,
+   "stack_dropped": 18,
+   "stack_added": 8,
+   "stack_added_competitor": 14,
+   "positioning_change": 6,
+   "product_launch": 7
+  },
+  "thresholds": {
+   "surge_min_posts": 3,
+   "surge_window_days": 45,
+   "growth_min_pct": 15,
+   "contraction_min_pct": 10,
+   "refractory_days": 45,
+   "escalation_factor": 2,
+   "horizon_half_lives": 4,
+   "trend_window_days": 14
+  },
+  "relevant_functions": [
+   "engineering",
+   "data",
+   "revops",
+   "people"
+  ],
+  "competitor_tools": [
+   "Rivalytics",
+   "Sentrylight",
+   "Datastream Pro"
+  ],
+  "complement_tools": [
+   "Warehowse",
+   "Modelform",
+   "Terraflow",
+   "Podship",
+   "Pagelight"
+  ],
+  "act_now_at": 20
+ }
+}

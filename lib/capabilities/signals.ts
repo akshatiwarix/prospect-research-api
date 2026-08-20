@@ -30,17 +30,18 @@ import type { Capability, FieldMap } from "./types";
  * `technologies` payload without this being a contradiction.
  */
 
-const signalSchema = z.object({
+// `looseObject`: signals are forwarded verbatim into a box, so a stripping
+// schema would validate and then quietly delete half the payload.
+const signalSchema = z.looseObject({
   key: z.string().min(1),
   type: z.string().min(1),
   family: z.string().optional(),
   subject: z.string().optional(),
   direction: z.string().optional(),
   anchor_at: z.string().optional(),
-  evidence: z.unknown().optional(),
 });
 
-const familySchema = z.object({
+const familySchema = z.looseObject({
   family: z.string().min(1),
   points: z.number(),
   cap: z.number(),

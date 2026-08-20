@@ -17,9 +17,12 @@ import type { Capability, FieldMap } from "./types";
  * cleanly, which is a relief and not a coincidence: Day 013 also refused to pick
  * a winner when the evidence did not.
  *
- *   verified              → resolved
- *   ambiguous             → unknown   (three survivors is not a domain)
+ *   verified              → resolved  (the verdict names one `domain`)
+ *   ambiguous             → unknown   (three `survivors` is not a domain)
  *   no_candidate_survives → absent    (an affirmative finding, not a shrug)
+ *   succeeded_by          → unknown   (real: "Twitter" resolves to this)
+ *   different_entity      → unknown   (real: "Delta Air Lines" does)
+ *   under_posed           → unknown   (real: "HP" denotes two companies)
  *   anything else         → unknown   (tolerant read; see below)
  *
  * An unrecognised verdict state becomes `unknown` rather than a
@@ -29,8 +32,19 @@ import type { Capability, FieldMap } from "./types";
  * `purposes` at all has broken its contract and should say so loudly.
  */
 
+/**
+ * The verdict, and two things about it that only a real response tells you.
+ *
+ * A `verified` verdict carries `domain` — a single string, the answer. An
+ * `ambiguous` one carries `survivors`, a list. They are different keys, not one
+ * key with a different arity, and reading `survivors[0]` for a verified verdict
+ * (which is what this file did until the corpus was probed) silently reports
+ * `unknown` for every company that actually resolved. That bug survived a
+ * hand-written fixture and died to a captured one.
+ */
 const verdictSchema = z.object({
   state: z.string().min(1),
+  domain: z.string().optional(),
   survivors: z.array(z.string()).optional(),
 });
 
@@ -39,18 +53,35 @@ const purposeSchema = z.object({
   verdict: verdictSchema,
 });
 
+/**
+ * `entity` is nullable, and that nullability is a correct answer rather than a
+ * broken one. Ask Day 013 about a company its corpus has never heard of and it
+ * replies with `entity: null`, `matched: []` and a real verdict of
+ * `no_candidate_survives`. Requiring `entity` here would report that as a
+ * boundary violation — accusing a working upstream of breaking its contract
+ * because it honestly said "I do not know this company".
+ */
 const identityBoundarySchema = z.object({
-  entity: z.object({
-    id: z.string().min(1),
-    legalName: z.string().optional(),
-    commonName: z.string().optional(),
-    country: z.string().optional(),
-    industry: z.string().optional(),
-    foundedYear: z.number().int().optional(),
-    origin: z.string().optional(),
-  }),
+  entity: z
+    .object({
+      id: z.string().min(1),
+      legalName: z.string().optional(),
+      commonName: z.string().optional(),
+      country: z.string().optional(),
+      industry: z.string().optional(),
+      foundedYear: z.number().int().optional(),
+      origin: z.string().optional(),
+    })
+    .nullable(),
   purposes: z.array(purposeSchema),
-  capturedAt: z.string().min(1),
+  /**
+   * Nullable, and for the same reason `entity` is. Ask about a company Day 013
+   * has no dated snapshot for — "HP", which denotes two companies, or a name it
+   * has never heard — and `capturedAt` comes back `null`. A resolution with no
+   * capture date is a real answer; a box with no `observed_at` is how it is
+   * reported.
+   */
+  capturedAt: z.string().min(1).nullable(),
 });
 
 export type IdentityParsed = z.infer<typeof identityBoundarySchema>;
@@ -68,33 +99,39 @@ export const identity: Capability<string, IdentityParsed> = {
   keyFor: (query) => query,
   boundarySchema: identityBoundarySchema,
   toFields: (parsed, upstreamKey): FieldMap => {
-    const observedAt = parsed.capturedAt;
+    // `?? undefined` rather than passing the null through: `observed_at` is
+    // omitted when there is no observation date, never nulled.
+    const observedAt = parsed.capturedAt ?? undefined;
     const web = parsed.purposes.find((purpose) => purpose.purpose === "web");
+
+    const entity = parsed.entity;
 
     return {
       domain: domainField(web?.verdict, upstreamKey, observedAt),
-      legal_name: optional(parsed.entity.legalName, upstreamKey, observedAt),
-      country: optional(parsed.entity.country, upstreamKey, observedAt),
-      industry: optional(parsed.entity.industry, upstreamKey, observedAt),
-      founded_year: optional(parsed.entity.foundedYear, upstreamKey, observedAt),
-      origin: optional(parsed.entity.origin, upstreamKey, observedAt),
+      legal_name: optional(entity?.legalName, upstreamKey, observedAt),
+      country: optional(entity?.country, upstreamKey, observedAt),
+      industry: optional(entity?.industry, upstreamKey, observedAt),
+      founded_year: optional(entity?.foundedYear, upstreamKey, observedAt),
+      origin: optional(entity?.origin, upstreamKey, observedAt),
     };
   },
 };
 
 function domainField(
-  verdict: { state: string; survivors?: string[] } | undefined,
+  verdict: { state: string; domain?: string; survivors?: string[] } | undefined,
   upstreamKey: string,
-  observedAt: string,
+  observedAt?: string,
 ): Field<unknown> {
   // No web purpose in the response at all: the upstream did not evaluate the
   // thing we asked about. Nothing was found and nothing was denied.
   if (!verdict) return unknown("identity", upstreamKey);
 
   if (verdict.state === "verified") {
-    const [only] = verdict.survivors ?? [];
-    // A verdict of `verified` with no survivor is the upstream contradicting
-    // itself. Reporting `unknown` is more honest than inventing a domain.
+    // `domain` first, because that is where a verified verdict puts its answer.
+    // `survivors[0]` is the fallback for a shape that may not exist any more, and
+    // a verified verdict with neither is the upstream contradicting itself —
+    // reporting `unknown` beats inventing a domain.
+    const only = verdict.domain ?? verdict.survivors?.[0];
     return only === undefined
       ? unknown("identity", upstreamKey)
       : resolved("identity", only, upstreamKey, observedAt);
@@ -108,7 +145,7 @@ function domainField(
   return unknown("identity", upstreamKey);
 }
 
-function optional(value: unknown, upstreamKey: string, observedAt: string): Field<unknown> {
+function optional(value: unknown, upstreamKey: string, observedAt?: string): Field<unknown> {
   return value === undefined || value === null || value === ""
     ? unknown("identity", upstreamKey)
     : resolved("identity", value, upstreamKey, observedAt);

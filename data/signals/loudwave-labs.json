@@ -1,0 +1,436 @@
+{
+ "accounts": [
+  {
+   "id": "a001",
+   "name": "Loudwave Labs",
+   "domain": "loudwave-labs.example",
+   "industry": "Marketing Software",
+   "fit": {
+    "score": 62,
+    "band": "moderate"
+   }
+  }
+ ],
+ "observations": [
+  {
+   "account_id": "a001",
+   "observed_at": "2026-02-20",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "Ship faster",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a001",
+   "observed_at": "2026-03-06",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "Ship faster",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a001",
+   "observed_at": "2026-03-20",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "Ship faster",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a001",
+   "observed_at": "2026-04-03",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "Ship faster",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a001",
+   "observed_at": "2026-04-17",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "Ship faster",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a001",
+   "observed_at": "2026-05-01",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "Ship faster",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a001",
+   "observed_at": "2026-05-15",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "Ship faster",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a001",
+   "observed_at": "2026-06-12",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "Ship faster",
+    "homepage_hash": "home-1",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a001",
+   "observed_at": "2026-07-10",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "Ship faster, together",
+    "homepage_hash": "home-2",
+    "pricing_page_hash": "price-1"
+   },
+   "items": []
+  },
+  {
+   "account_id": "a001",
+   "observed_at": "2026-07-24",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "Ship faster, together",
+    "homepage_hash": "home-3",
+    "pricing_page_hash": "price-1"
+   },
+   "items": [
+    {
+     "kind": "release",
+     "observed_at": "2026-07-17",
+     "title": "Loudwave 3.0"
+    }
+   ]
+  },
+  {
+   "account_id": "a001",
+   "observed_at": "2026-08-05",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "The platform for shipping",
+    "homepage_hash": "home-4",
+    "pricing_page_hash": "price-2"
+   },
+   "items": [
+    {
+     "kind": "release",
+     "observed_at": "2026-07-28",
+     "title": "Inline previews"
+    },
+    {
+     "kind": "release",
+     "observed_at": "2026-08-01",
+     "title": "Workspace themes"
+    }
+   ]
+  },
+  {
+   "account_id": "a001",
+   "observed_at": "2026-08-12",
+   "state": {
+    "headcount": 140,
+    "funding_stage": "series_a",
+    "funding_total_usd": 18000000,
+    "stack": [
+     "Warehowse",
+     "Podship"
+    ],
+    "execs": [
+     {
+      "fn": "engineering",
+      "title": "VP Engineering"
+     },
+     {
+      "fn": "marketing",
+      "title": "CMO"
+     }
+    ],
+    "tagline": "The platform for shipping",
+    "homepage_hash": "home-5",
+    "pricing_page_hash": "price-2"
+   },
+   "items": [
+    {
+     "kind": "release",
+     "observed_at": "2026-08-07",
+     "title": "Loudwave AI beta"
+    },
+    {
+     "kind": "release",
+     "observed_at": "2026-08-10",
+     "title": "Mobile app"
+    }
+   ]
+  }
+ ],
+ "watchlist": {
+  "name": "Growth motion",
+  "families": {
+   "money": {
+    "cap": 20,
+    "half_life_days": 60
+   },
+   "people": {
+    "cap": 30,
+    "half_life_days": 45
+   },
+   "growth": {
+    "cap": 30,
+    "half_life_days": 30
+   },
+   "technology": {
+    "cap": 12,
+    "half_life_days": 30
+   },
+   "market": {
+    "cap": 8,
+    "half_life_days": 21
+   }
+  },
+  "weights": {
+   "funding_round": 25,
+   "exec_change": 26,
+   "exec_change_loss": 16,
+   "key_role_opened": 20,
+   "hiring_surge": 16,
+   "headcount_growth": 14,
+   "headcount_contraction": 22,
+   "stack_dropped": 18,
+   "stack_added": 8,
+   "stack_added_competitor": 14,
+   "positioning_change": 6,
+   "product_launch": 7
+  },
+  "thresholds": {
+   "surge_min_posts": 3,
+   "surge_window_days": 45,
+   "growth_min_pct": 15,
+   "contraction_min_pct": 10,
+   "refractory_days": 45,
+   "escalation_factor": 2,
+   "horizon_half_lives": 4,
+   "trend_window_days": 14
+  },
+  "relevant_functions": [
+   "engineering",
+   "data",
+   "revops",
+   "people"
+  ],
+  "competitor_tools": [
+   "Rivalytics",
+   "Sentrylight",
+   "Datastream Pro"
+  ],
+  "complement_tools": [
+   "Warehowse",
+   "Modelform",
+   "Terraflow",
+   "Podship",
+   "Pagelight"
+  ],
+  "act_now_at": 20
+ }
+}

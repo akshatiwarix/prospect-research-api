@@ -7,7 +7,7 @@ import { schedule, tier0Slice, type Bindings } from "./schedule";
 
 const IDENTITY_BODY = {
   entity: { id: "stripe", legalName: "Stripe, Inc.", country: "US", industry: "Payments", foundedYear: 2010, origin: "real" },
-  purposes: [{ purpose: "web", verdict: { state: "verified", survivors: ["stripe.com"] } }],
+  purposes: [{ purpose: "web", verdict: { state: "verified", domain: "stripe.com" } }],
   capturedAt: "2026-08-20",
 };
 

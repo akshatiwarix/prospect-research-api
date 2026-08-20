@@ -24,6 +24,22 @@ export type FixtureRecord = {
   upstream: UpstreamId;
   /** The binding key this response was recorded for. */
   key: string;
+  /**
+   * Whether this came off the wire or out of my head.
+   *
+   * `recorded` fixtures were captured from the live deployment by
+   * `scripts/record.mts` and carry the date. `authored` ones exist because the
+   * network cannot produce them — Day 006's brief route 404s, and `.example`
+   * domains are reserved precisely so that nothing can fetch them — so a
+   * "healthy world" document has to be written rather than observed.
+   *
+   * The distinction is printed in the console and the README rather than
+   * flattened, because "this fixture is a recording" and "this fixture is my
+   * guess about what a working upstream would say" support very different
+   * claims.
+   */
+  origin?: "recorded" | "authored";
+  recorded_at?: string;
   latency_ms: number;
   /**
    * How far past the budget an abandoned request actually costs.

@@ -44,9 +44,11 @@ describe("identity", () => {
     capturedAt: "2026-08-20",
   };
 
-  it("resolves a verified single survivor", () => {
+  it("resolves a verified verdict from its `domain` key", () => {
+    // The real shape, captured from the live deployment for "Datadog": a
+    // verified verdict names one `domain` and carries no `survivors` at all.
     const fields = identity.toFields(
-      { ...base, purposes: [{ purpose: "web", verdict: { state: "verified", survivors: ["stripe.com"] } }] },
+      { ...base, purposes: [{ purpose: "web", verdict: { state: "verified", domain: "stripe.com" } }] },
       "stripe",
     );
     expect(fields.domain).toMatchObject({ state: "resolved", value: "stripe.com", observed_at: "2026-08-20" });
@@ -86,12 +88,36 @@ describe("identity", () => {
     expect(fields.domain?.state).toBe("unknown");
   });
 
-  it("treats a verified verdict with no survivor as a contradiction, not a domain", () => {
+  it("treats a verified verdict naming nothing as a contradiction, not a domain", () => {
     const fields = identity.toFields(
-      { ...base, purposes: [{ purpose: "web", verdict: { state: "verified", survivors: [] } }] },
+      { ...base, purposes: [{ purpose: "web", verdict: { state: "verified" } }] },
       "stripe",
     );
     expect(fields.domain?.state).toBe("unknown");
+  });
+
+  it("accepts a null entity as a real answer, not a broken one", () => {
+    // The live response for a company Day 013 has never heard of: entity null,
+    // matched empty, and an honest no_candidate_survives verdict. Calling that a
+    // boundary violation would accuse a working upstream of breaking contract.
+    const raw = {
+      entity: null,
+      purposes: [{ purpose: "web", verdict: { state: "no_candidate_survives" } }],
+      capturedAt: "2026-08-20",
+    };
+    const parsed = CAPABILITIES.identity.parseBoundary(raw);
+    expect(parsed.ok).toBe(true);
+
+    const fields = identity.toFields(raw, "Tessellate");
+    expect(fields.domain?.state).toBe("absent");
+    expect(fields.legal_name?.state).toBe("unknown");
+  });
+
+  it("tolerates every verdict state the live corpus actually produces", () => {
+    for (const state of ["succeeded_by", "different_entity", "under_posed"]) {
+      const fields = identity.toFields({ ...base, purposes: [{ purpose: "web", verdict: { state } }] }, "q");
+      expect(fields.domain?.state, state).toBe("unknown");
+    }
   });
 
   it("ignores unrecognised upstream keys and requires the ones it reads", () => {
@@ -228,7 +254,7 @@ describe("every capability", () => {
       identity.toFields(
         {
           entity: { id: "stripe", legalName: "Stripe, Inc." },
-          purposes: [{ purpose: "web", verdict: { state: "verified", survivors: ["stripe.com"] } }],
+          purposes: [{ purpose: "web", verdict: { state: "verified", domain: "stripe.com" } }],
           capturedAt: "2026-08-20",
         },
         "stripe",
