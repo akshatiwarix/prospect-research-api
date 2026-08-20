@@ -5,6 +5,7 @@ import { deriveCompleteness, type CapabilitySummary } from "./document";
 const ok = (): CapabilitySummary => ({ state: "resolved", reason: "ok", upstream_key: "k" });
 const unknownOk = (): CapabilitySummary => ({ state: "unknown", reason: "ok", upstream_key: "k" });
 const missed = (): CapabilitySummary => ({ state: "not_attempted", reason: "deadline" });
+const excluded = (): CapabilitySummary => ({ state: "not_attempted", reason: "excluded_by_caller" });
 
 describe("completeness", () => {
   it("is complete when every capability answered", () => {
@@ -24,6 +25,18 @@ describe("completeness", () => {
 
   it("is none when nothing answered", () => {
     expect(deriveCompleteness({ a: missed(), b: missed() })).toBe("none");
+  });
+
+  it("ignores capabilities the caller excluded", () => {
+    // Reporting the caller's own scope decision back as a shortfall would make
+    // `complete` unreachable for anyone who uses the capabilities parameter.
+    expect(deriveCompleteness({ a: ok(), b: excluded(), c: excluded() })).toBe("complete");
+    expect(deriveCompleteness({ a: ok(), b: missed(), c: excluded() })).toBe("partial");
+    expect(deriveCompleteness({ a: missed(), b: excluded() })).toBe("none");
+  });
+
+  it("is none when everything was excluded, since nothing was asked", () => {
+    expect(deriveCompleteness({ a: excluded(), b: excluded() })).toBe("none");
   });
 
   it("is none for an empty capability set, not complete", () => {

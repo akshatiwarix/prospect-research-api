@@ -60,16 +60,24 @@ export type ResearchDocument<Fields> = {
  * its own body.
  *
  * The rule turns on `reason === "ok"` rather than on `state === "resolved"`, and
- * the distinction is the whole reason this function is three lines instead of
- * one. A capability that ran and reported `unknown` did its job. Counting it as
- * incomplete would tell the caller to retry, when the honest signal is that the
- * upstream looked and there was nothing there. Completeness is a statement about
- * *coverage of the attempt*, not about how much data came back.
+ * the distinction is the whole reason this function is not one line. A capability
+ * that ran and reported `unknown` did its job. Counting it as incomplete would
+ * tell the caller to retry, when the honest signal is that the upstream looked
+ * and there was nothing there. Completeness is a statement about *coverage of the
+ * attempt*, not about how much data came back.
+ *
+ * For the same reason, capabilities the caller **excluded** are not counted at
+ * all. A request for two capabilities that returns both is complete; letting the
+ * four unasked-for ones drag it to `partial` would report the caller's own scope
+ * decision back to them as a shortfall, and would make `complete` unreachable for
+ * anyone using the `capabilities` parameter at all.
  */
 export function deriveCompleteness(
   capabilities: Record<string, CapabilitySummary>,
 ): Completeness {
-  const summaries = Object.values(capabilities);
+  const summaries = Object.values(capabilities).filter(
+    (summary) => summary.reason !== "excluded_by_caller",
+  );
   if (summaries.length === 0) return "none";
 
   const answered = summaries.filter((summary) => summary.reason === "ok").length;
