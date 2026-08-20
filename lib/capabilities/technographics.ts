@@ -61,6 +61,8 @@ export const technographics: Capability<true, TechnographicsParsed> = {
       body: { url: `https://${context.domain}`, asOf: context.as_of },
     };
   },
+  // The domain, not the binding: what we asked about is a host tier 0 found.
+  keyFor: (_binding, context) => context.domain ?? "",
   boundarySchema: technographicsBoundarySchema,
   toFields: (parsed, upstreamKey): FieldMap => ({
     technologies: technologiesField(parsed, upstreamKey),

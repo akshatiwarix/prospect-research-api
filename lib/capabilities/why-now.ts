@@ -69,6 +69,9 @@ export const whyNow: Capability<WhyNowBinding, WhyNowParsed> = {
     path: "/api/hypotheses",
     body: { companyId: binding.companyId, sellerId: binding.sellerId, asOf: context.as_of },
   }),
+  // Day 007's verdicts are seller-dependent, so the key names both halves — the
+  // same company asked as a different seller is a different question.
+  keyFor: (binding) => `${binding.companyId}:${binding.sellerId}`,
   boundarySchema: whyNowBoundarySchema,
   toFields: (parsed, upstreamKey): FieldMap => ({
     hypotheses: hypothesesField(parsed, upstreamKey),

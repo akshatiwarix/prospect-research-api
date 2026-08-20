@@ -67,6 +67,7 @@ export const narrative: Capability<string, NarrativeParsed> = {
   contributes: CONTRIBUTES,
   bindingSchema: z.string().min(1),
   buildRequest: (companyId) => ({ path: "/api/brief", body: { company_id: companyId } }),
+  keyFor: (companyId) => companyId,
   boundarySchema: narrativeBoundarySchema,
   toFields: (parsed, upstreamKey): FieldMap => {
     const brief = parsed.brief;

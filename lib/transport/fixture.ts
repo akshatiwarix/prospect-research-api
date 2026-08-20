@@ -25,6 +25,19 @@ export type FixtureRecord = {
   /** The binding key this response was recorded for. */
   key: string;
   latency_ms: number;
+  /**
+   * How far past the budget an abandoned request actually costs.
+   *
+   * Added at step 7 (amendment A5) for a reason worth stating: abandoning a
+   * request is not free. The abort fires at the budget, but socket teardown, a
+   * DNS resolver mid-flight and the event loop getting back to us all happen
+   * after that, so a live request abandoned at 3,200ms is charged rather more
+   * than 3,200ms. Modelling that is what makes the `deadline` reason reachable
+   * at all — without it, tier 0 can never overspend its slice, tier 1 is always
+   * left at least 60% of the budget, and "never started" becomes a member of a
+   * closed enum that nothing can produce.
+   */
+  overshoot_ms?: number;
   /** A recorded success body, or a recorded failure. Exactly one. */
   body?: unknown;
   failure?: { reason: TransportFailure; retry_after_s?: number; detail: string };
@@ -60,13 +73,14 @@ export function fixtureTransport(store: FixtureStore): Transport {
       }
 
       if (record.latency_ms > request.budget_ms) {
+        // The budget plus whatever the teardown cost, never the recorded
+        // latency: we stopped waiting at the budget, and charging the full
+        // latency would bill the caller for time we did not spend.
+        const overshoot = record.overshoot_ms ?? 0;
         return {
           ok: false,
           reason: "timeout",
-          // The budget, not the recorded latency: we stopped waiting at the
-          // budget, and claiming to have waited longer would misreport the
-          // ledger.
-          elapsed_ms: request.budget_ms,
+          elapsed_ms: request.budget_ms + overshoot,
           detail: `abandoned after ${request.budget_ms}ms (recorded latency ${record.latency_ms}ms)`,
         };
       }

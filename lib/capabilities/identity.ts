@@ -65,6 +65,7 @@ export const identity: Capability<string, IdentityParsed> = {
   contributes: CONTRIBUTES,
   bindingSchema: z.string().min(1).max(200),
   buildRequest: (query) => ({ path: "/api/resolve", body: { query } }),
+  keyFor: (query) => query,
   boundarySchema: identityBoundarySchema,
   toFields: (parsed, upstreamKey): FieldMap => {
     const observedAt = parsed.capturedAt;

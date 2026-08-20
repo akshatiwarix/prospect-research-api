@@ -92,6 +92,13 @@ export const signals: Capability<SignalsBinding, SignalsParsed> = {
       as_of: context.as_of,
     },
   }),
+  // The account id buried in the payload. A binding that is a whole request
+  // still has to name what it is about.
+  keyFor: (binding) => {
+    const [first] = binding.accounts;
+    const id = (first as { id?: unknown } | undefined)?.id;
+    return typeof id === "string" ? id : "unknown-account";
+  },
   boundarySchema: signalsBoundarySchema,
   toFields: (parsed, upstreamKey): FieldMap => {
     const [row] = parsed.rows;

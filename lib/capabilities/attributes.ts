@@ -75,6 +75,7 @@ export const attributes: Capability<string, AttributesParsed> = {
   contributes: CONTRIBUTES,
   bindingSchema: z.string().min(1),
   buildRequest: (companyId) => ({ path: "/api/classify", body: { companyId } }),
+  keyFor: (companyId) => companyId,
   boundarySchema: attributesBoundarySchema,
   toFields: (parsed, upstreamKey): FieldMap => {
     const derivations = parsed.classification.derivations;

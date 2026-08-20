@@ -60,6 +60,16 @@ export type Capability<Binding = unknown, Parsed = unknown> = {
    */
   buildRequest: (binding: Binding, context: CapabilityContext) => UpstreamRequest | null;
   /**
+   * The key this capability is about to speak to the upstream about, which is
+   * what lands in every box's `upstream_key`.
+   *
+   * It is not always the binding: `technographics`' binding is empty and its key
+   * is the domain tier 0 resolved, and `signals`' binding is a whole payload
+   * whose key is the account id inside it. Asking the capability keeps that
+   * knowledge next to the request it belongs to instead of in the scheduler.
+   */
+  keyFor: (binding: Binding, context: CapabilityContext) => string;
+  /**
    * Tolerant read, strict require: unrecognised upstream keys are stripped, and
    * a missing key that `toFields` actually needs fails here rather than
    * producing `undefined` three frames later.
@@ -119,6 +129,7 @@ export type AnyCapability = {
   /** Throws on a malformed binding — that is a bug in our own directory. */
   parseBinding: (raw: unknown) => unknown;
   buildRequest: (binding: unknown, context: CapabilityContext) => UpstreamRequest | null;
+  keyFor: (binding: unknown, context: CapabilityContext) => string;
   /**
    * Never throws. A `false` result is an upstream contract violation, which is a
    * fact about the world and belongs in a field's state, not in a stack trace.
@@ -136,6 +147,7 @@ export function erase<Binding, Parsed>(capability: Capability<Binding, Parsed>):
     contributes: capability.contributes,
     parseBinding: (raw) => capability.bindingSchema.parse(raw),
     buildRequest: (binding, context) => capability.buildRequest(binding as Binding, context),
+    keyFor: (binding, context) => capability.keyFor(binding as Binding, context),
     parseBoundary: (raw) => {
       const parsed = capability.boundarySchema.safeParse(raw);
       if (parsed.success) return { ok: true, value: parsed.data };

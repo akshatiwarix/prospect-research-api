@@ -546,6 +546,21 @@ reason subsets are now derived from the state table at type level so an
 eleventh reason cannot silently miss a signature — which is exactly how the
 tenth broke four of them.
 
+**A5 — abandonment overshoot, added at step 7.** Writing the scheduler proved
+that `deadline` — "the capability never started" — was **structurally
+unreachable**. Tier 0 can spend at most 40% of the budget, so tier 1 is always
+left at least 60%, so nothing can ever be too late to start. A closed enum with
+a member nothing can produce is not a vocabulary, it is a claim about handling a
+case that is in fact unhandled.
+
+The fix is not to delete the reason but to model the thing that makes it real:
+abandoning a request is not free. The abort fires at the budget; socket teardown
+and the event loop getting back to us happen after. So a fixture records
+`overshoot_ms`, tier 0 can overspend its slice, `remaining` can go negative, and
+a tier-1 capability then honestly reports `not_attempted/deadline` instead of
+being handed a request with a negative budget. Both reasons are now reachable
+and both are tested.
+
 ## The 26 settled decisions
 
 1. **Thesis:** the response envelope is the product; sibling composition is its
