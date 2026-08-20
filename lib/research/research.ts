@@ -1,7 +1,7 @@
 import { deriveCompleteness, requestDigest, type Field } from "@/lib/envelope";
 import { CAPABILITY_IDS, type CapabilityId, type FieldMap } from "@/lib/capabilities";
 import { fixtureTransport, liveTransport, realClock, virtualClock, type Clock, type Transport } from "@/lib/transport";
-import { schedule } from "@/lib/scheduler";
+import { schedule, type ScheduleInput } from "@/lib/scheduler";
 import { DEPRECATED_ALIASES, DEPRECATIONS, SCHEMA_VERSION, type ResearchRequest, type ResearchResponse } from "@/lib/schema";
 import { FIXTURE_STORE } from "@/data/fixtures";
 import { lookup } from "@/data/roster";
@@ -23,6 +23,15 @@ export type ResearchOptions = {
   request_id: string;
   transport?: Transport;
   clock?: Clock;
+  /**
+   * Fired once, as soon as the directory has resolved the company and the digest
+   * is computable — before any upstream is touched. The streaming route needs
+   * this to be genuinely first, so the digest is computed here rather than at the
+   * end where it reads more naturally.
+   */
+  onOpen?: (open: { company: ResearchResponse["company"]; request_digest: string }) => void;
+  /** Forwarded to the scheduler, for the streaming route. */
+  onSettled?: ScheduleInput["onSettled"];
 };
 
 /**
@@ -53,6 +62,27 @@ export async function research(
 
   const requested = request.capabilities ?? CAPABILITY_IDS;
 
+  const company: ResearchResponse["company"] = {
+    canonical_id: found.entry.canonical_id,
+    input: request.company,
+    ...(found.matched_alias ? { matched_alias: found.matched_alias } : {}),
+  };
+
+  // The digest covers the *canonical* request — the company as this service
+  // understands it, not the string that was typed — plus every knob that can
+  // change the answer. Two callers who spell Stripe differently asked the same
+  // question and get the same digest. Computed before any I/O so the streaming
+  // route can announce it first.
+  const request_digest = requestDigest({
+    company: found.entry.canonical_id,
+    capabilities: [...requested].sort(),
+    deadline_ms: request.deadline_ms,
+    transport: request.transport,
+    as_of: request.as_of,
+  });
+
+  options.onOpen?.({ company, request_digest });
+
   const result = await schedule({
     bindings: found.entry.bindings,
     requested,
@@ -60,6 +90,7 @@ export async function research(
     as_of: request.as_of,
     transport,
     clock,
+    onSettled: options.onSettled,
   });
 
   const fields = withDeprecatedAliases(result.fields);
@@ -67,22 +98,8 @@ export async function research(
   return {
     schema_version: SCHEMA_VERSION,
     request_id: options.request_id,
-    // The digest covers the *canonical* request — the company as this service
-    // understands it, not the string that was typed — plus every knob that can
-    // change the answer. Two callers who spell Stripe differently asked the same
-    // question and get the same digest.
-    request_digest: requestDigest({
-      company: found.entry.canonical_id,
-      capabilities: [...requested].sort(),
-      deadline_ms: request.deadline_ms,
-      transport: request.transport,
-      as_of: request.as_of,
-    }),
-    company: {
-      canonical_id: found.entry.canonical_id,
-      input: request.company,
-      ...(found.matched_alias ? { matched_alias: found.matched_alias } : {}),
-    },
+    request_digest,
+    company,
     completeness: deriveCompleteness(result.capabilities),
     transport: transport.id,
     fields,

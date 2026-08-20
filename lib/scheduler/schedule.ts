@@ -66,6 +66,16 @@ export type ScheduleInput = {
   as_of: string;
   transport: Transport;
   clock: Clock;
+  /**
+   * Called as each capability settles, for the streaming route.
+   *
+   * A callback rather than a generator or an event emitter because the scheduler
+   * has exactly one thing to say and says it once per capability. It fires for
+   * the unhappy paths too — a capability reported `unmapped` before any I/O
+   * settled just as much as one that answered, and a stream that only emitted
+   * successes would let a client sit waiting for events that are never coming.
+   */
+  onSettled?: (id: CapabilityId, summary: CapabilitySummary, fields: FieldMap) => void;
 };
 
 export type ScheduleResult = {
@@ -101,6 +111,7 @@ export async function schedule(input: ScheduleInput): Promise<ScheduleResult> {
 
   fields.identity = identityAttempt.fields;
   capabilities.identity = identityAttempt.summary;
+  input.onSettled?.("identity", identityAttempt.summary, identityAttempt.fields);
 
   const tier0Spent = identityAttempt.summary.elapsed_ms ?? 0;
   input.clock.advance(tier0Spent);
@@ -124,7 +135,10 @@ export async function schedule(input: ScheduleInput): Promise<ScheduleResult> {
         context,
         budgetMs: remaining,
         transport: input.transport,
-      }).then((result) => [capability.id, result] as const),
+      }).then((result) => {
+        input.onSettled?.(capability.id, result.summary, result.fields);
+        return [capability.id, result] as const;
+      }),
     ),
   );
 
