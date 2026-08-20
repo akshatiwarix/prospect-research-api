@@ -316,7 +316,7 @@ would be publishing fabricated factual claims about identifiable third parties.
 So: **`signals` bindings are authored only for synthetic roster members.** Real
 companies get `not_attempted/unmapped` for `signals`, and the reason is a stated
 boundary rather than an oversight. This mirrors `domain-detective`'s own real/
-synthetic split, and it is why live coverage tops out at 3-of-6.
+synthetic split, and it is part of why coverage tops out at 4-of-6.
 
 ## Main states and workflows
 
@@ -473,9 +473,11 @@ npm run probe      # hit the five live siblings, print the real coverage matrix
 
 ## Limitations, stated up front
 
-- **Live coverage tops out at 3-of-6.** Because the sibling corpora are disjoint
-  and authored evidence about real companies is off limits. The matrix is the
-  deliverable; it is not going to get denser by trying harder.
+- **Coverage tops out at 4-of-6, and most companies sit at 1 or 2.** Measured
+  from the shipped directory: 13 companies bound to one capability, 12 to two,
+  and Tessellate to four. The cause is that the five upstream corpora are
+  disjoint and that authored evidence about real companies is off limits. The
+  matrix is the deliverable; it is not going to get denser by trying harder.
 - **The fixture transport's healthy world is authored.** It shows what a complete
   document looks like. It is not evidence that six providers would agree in
   reality.
@@ -665,8 +667,9 @@ the exact dishonesty this repo exists to object to.
     `northwind-freight` are different companies.
 21. **`signals` bindings only for synthetic roster members.** Authoring
     observations about identifiable real companies would be publishing fabricated
-    factual claims. This mirrors Day 013's own real/synthetic boundary and caps
-    live coverage at 3-of-6.
+    factual claims. This mirrors Day 013's own real/synthetic boundary, and it is
+    part of why coverage tops out at 4-of-6 (Tessellate) with most companies at
+    one or two.
 22. **Sibling repositories are not modified.** Adapting to upstreams as they are —
     including the one returning `404 text/html` — is the entire job.
 23. **The dependency edge is stated as the one edge it is:**

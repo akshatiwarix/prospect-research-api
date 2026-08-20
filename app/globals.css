@@ -3,7 +3,7 @@
 /*
  * `dark:` responds to the OS setting *and* to a `.dark` class on <html>, so dark
  * mode can be exercised deliberately from a console instead of only by changing
- * system preferences. Inherited from Days 001–011.
+ * system preferences. Inherited from Days 001-014.
  */
 @custom-variant dark {
   @media (prefers-color-scheme: dark) {

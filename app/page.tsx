@@ -1,11 +1,14 @@
+import { Console } from "./components/Console";
+
+/**
+ * A shell. Every byte the console shows comes back through the public API, so
+ * there is nothing for a server component to pre-compute here — and if there
+ * were, the console would have a privilege a caller does not.
+ */
 export default function Home() {
   return (
-    <main className="mx-auto max-w-2xl px-6 py-24">
-      <h1 className="text-2xl font-semibold">Prospect Research API</h1>
-      <p className="mt-4 text-sm opacity-70">
-        The console lands at step 12. Until then the contract is the product —
-        see <code>PLAN.md</code>.
-      </p>
+    <main className="min-h-full bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100">
+      <Console />
     </main>
   );
 }
