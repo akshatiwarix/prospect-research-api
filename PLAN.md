@@ -535,6 +535,17 @@ accordingly Day 005's point total and fit band are dropped rather than
 re-exported as fields of ours, since re-exporting would launder another
 service's arithmetic into something that looks like our own judgement.
 
+**A4 — a tenth reason, `timeout`, added at step 6.** The transports exposed a
+hole the interview did not. `deadline` means the scheduler never started a
+capability, and by the `upstream_key` rule it therefore carries no key. A request
+that *was* sent and then abandoned mid-flight is a different fact and it needs a
+key, because knowing which upstream is eating the budget is the entire
+diagnostic value. Both are fixed by the same knob; they are not the same
+observation. `timeout` maps to `unavailable`, sits in `REASON_SENT`, and the
+reason subsets are now derived from the state table at type level so an
+eleventh reason cannot silently miss a signature — which is exactly how the
+tenth broke four of them.
+
 ## The 26 settled decisions
 
 1. **Thesis:** the response envelope is the product; sibling composition is its

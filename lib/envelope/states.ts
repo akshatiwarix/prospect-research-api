@@ -1,7 +1,8 @@
 /**
  * The two closed vocabularies, and the table that relates them.
  *
- * `PLAN.md` decision 9 fixes five states and decision 10 fixes nine reasons.
+ * `PLAN.md` decision 9 fixes five states; decision 10 fixed nine reasons and
+ * amendment A4 added a tenth, `timeout`.
  * What the interview did not settle, and what fell out of writing this file, is
  * that the two axes are **almost** one axis: eight of the nine reasons determine
  * the state completely. Only `ok` is ambiguous, and it is ambiguous in exactly
@@ -51,6 +52,17 @@ export const FIELD_REASONS = [
   "upstream_unconfigured",
   /** 429. `retry_after_s` carries the upstream's own advice. */
   "upstream_rate_limited",
+  /**
+   * The request was sent and we stopped waiting for it.
+   *
+   * Added at step 6 (amendment A4) because the transports exposed a hole the
+   * interview did not: `deadline` means the scheduler never started a capability,
+   * and by the `REASON_SENT` rule it carries no `upstream_key`. A request that
+   * *was* sent and then abandoned mid-flight is a different fact, and it needs a
+   * key, because knowing *which* upstream is eating the budget is the whole
+   * diagnostic value. Same knob to turn, different thing to look at.
+   */
+  "timeout",
   /** A 2xx whose body failed the boundary schema. */
   "boundary_violation",
   /** The caller asked for this capability to be skipped. */
@@ -66,7 +78,7 @@ export type FieldReason = (typeof FIELD_REASONS)[number];
  * absence or a failure depending on circumstance, because "your budget ran out"
  * and "their server broke" must never be expressible as the same fact.
  */
-export const REASON_STATES: Record<FieldReason, readonly FieldState[]> = {
+export const REASON_STATES = {
   ok: ["resolved", "unknown", "absent"],
   deadline: ["not_attempted"],
   dependency_failed: ["not_attempted"],
@@ -75,8 +87,24 @@ export const REASON_STATES: Record<FieldReason, readonly FieldState[]> = {
   upstream_error: ["unavailable"],
   upstream_unconfigured: ["unavailable"],
   upstream_rate_limited: ["unavailable"],
+  timeout: ["unavailable"],
   boundary_violation: ["unavailable"],
-};
+} as const satisfies Record<FieldReason, readonly FieldState[]>;
+
+/**
+ * The reason subsets, derived from the table rather than restated beside it.
+ *
+ * Writing `Extract<FieldReason, "upstream_error" | ...>` by hand at each call
+ * site is how the tenth reason came to be missing from four signatures the
+ * moment it was added. These are computed, so adding an eleventh updates every
+ * signature that uses them.
+ */
+type ReasonsFor<S extends FieldState> = {
+  [R in FieldReason]: S extends (typeof REASON_STATES)[R][number] ? R : never;
+}[FieldReason];
+
+export type NotAttemptedReason = ReasonsFor<"not_attempted">;
+export type UnavailableReason = ReasonsFor<"unavailable">;
 
 /**
  * Reasons that imply a request actually left this process.
@@ -91,6 +119,7 @@ export const REASON_SENT: ReadonlySet<FieldReason> = new Set<FieldReason>([
   "upstream_error",
   "upstream_unconfigured",
   "upstream_rate_limited",
+  "timeout",
   "boundary_violation",
 ]);
 
@@ -98,8 +127,18 @@ export const REASON_SENT: ReadonlySet<FieldReason> = new Set<FieldReason>([
 export const REASON_ALLOWS_RETRY_AFTER: ReadonlySet<FieldReason> =
   new Set<FieldReason>(["upstream_rate_limited"]);
 
+/**
+ * `as const` above gives the table precise tuple types, which is what makes
+ * `NotAttemptedReason` and `UnavailableReason` derivable. The cost is that
+ * indexing it yields a union of tuples, so a read has to widen back to the array
+ * type before asking a runtime question of it.
+ */
+function statesFor(reason: FieldReason): readonly FieldState[] {
+  return REASON_STATES[reason];
+}
+
 export function isLegalPair(state: FieldState, reason: FieldReason): boolean {
-  return REASON_STATES[reason].includes(state);
+  return statesFor(reason).includes(state);
 }
 
 /**
@@ -108,6 +147,6 @@ export function isLegalPair(state: FieldState, reason: FieldReason): boolean {
  * upstream found — only the capability's boundary parser does.
  */
 export function impliedState(reason: FieldReason): FieldState | null {
-  const states = REASON_STATES[reason];
+  const states = statesFor(reason);
   return states.length === 1 ? (states[0] as FieldState) : null;
 }

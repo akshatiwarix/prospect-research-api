@@ -1,7 +1,8 @@
 import { z } from "zod";
 
 import { field, notAttempted, unavailable, type Field } from "@/lib/envelope";
-import type { FieldReason } from "@/lib/envelope";
+import type { FieldReason, NotAttemptedReason, UnavailableReason } from "@/lib/envelope";
+import { REASON_SENT } from "@/lib/envelope";
 import type { UpstreamId } from "@/data/upstreams";
 
 export const CAPABILITY_IDS = [
@@ -78,11 +79,9 @@ export function emptyFields(
   reason: Exclude<FieldReason, "ok">,
   options: { upstreamKey?: string; retryAfterS?: number } = {},
 ): FieldMap {
-  const notSent =
-    reason === "deadline" ||
-    reason === "dependency_failed" ||
-    reason === "unmapped" ||
-    reason === "excluded_by_caller";
+  // Asks the real table rather than listing the four not-sent reasons here, so
+  // adding a reason cannot leave this branch silently wrong.
+  const notSent = !REASON_SENT.has(reason);
 
   if (!notSent && options.upstreamKey === undefined) {
     throw new Error(`${capability.id}: reason '${reason}' implies a request was sent, so name its key`);
@@ -90,8 +89,8 @@ export function emptyFields(
 
   const entries = capability.contributes.map((key) => {
     const box = notSent
-      ? notAttempted(capability.id, reason)
-      : unavailable(capability.id, reason, options.upstreamKey as string, options.retryAfterS);
+      ? notAttempted(capability.id, reason as NotAttemptedReason)
+      : unavailable(capability.id, reason as UnavailableReason, options.upstreamKey as string, options.retryAfterS);
     return [key, box] as const;
   });
   return Object.fromEntries(entries);

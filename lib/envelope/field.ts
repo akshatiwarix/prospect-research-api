@@ -7,6 +7,8 @@ import {
   REASON_SENT,
   impliedState,
   isLegalPair,
+  type NotAttemptedReason,
+  type UnavailableReason,
   type FieldReason,
   type FieldState,
 } from "./states";
@@ -139,19 +141,13 @@ export function absent(capability: string, upstream_key: string): Field<never> {
   return field({ reason: "ok", state: "absent", capability, upstream_key });
 }
 
-export function notAttempted(
-  capability: string,
-  reason: Extract<FieldReason, "deadline" | "dependency_failed" | "unmapped" | "excluded_by_caller">,
-): Field<never> {
+export function notAttempted(capability: string, reason: NotAttemptedReason): Field<never> {
   return field({ reason, capability });
 }
 
 export function unavailable(
   capability: string,
-  reason: Extract<
-    FieldReason,
-    "upstream_error" | "upstream_unconfigured" | "upstream_rate_limited" | "boundary_violation"
-  >,
+  reason: UnavailableReason,
   upstream_key: string,
   retry_after_s?: number,
 ): Field<never> {
