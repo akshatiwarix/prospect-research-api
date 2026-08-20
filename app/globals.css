@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/*
+ * `dark:` responds to the OS setting *and* to a `.dark` class on <html>, so dark
+ * mode can be exercised deliberately from a console instead of only by changing
+ * system preferences. Inherited from Days 001–011.
+ */
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    @slot;
+  }
+  &:where(.dark, .dark *) {
+    @slot;
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
