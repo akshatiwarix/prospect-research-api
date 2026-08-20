@@ -50,10 +50,11 @@ describe("the document", () => {
   });
 
   it("is byte-identical across runs, excluding the budget and the request id", async () => {
-    const strip = (document: Awaited<ReturnType<typeof ask>>) => {
-      const { budget: _budget, request_id: _id, ...rest } = document;
-      return JSON.stringify(rest);
-    };
+    // Everything except the two fields the determinism claim explicitly excludes.
+    const strip = (document: Awaited<ReturnType<typeof ask>>) =>
+      JSON.stringify(
+        Object.fromEntries(Object.entries(document).filter(([key]) => key !== "budget" && key !== "request_id")),
+      );
     expect(strip(await ask())).toBe(strip(await ask()));
   });
 

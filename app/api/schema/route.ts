@@ -1,4 +1,4 @@
-import { DEPRECATIONS, SCHEMA_VERSION, jsonSchema, sunsetHeader } from "@/lib/schema";
+import { DEPRECATIONS, jsonSchema, sunsetHeader } from "@/lib/schema";
 import { CAPABILITIES, CAPABILITY_IDS } from "@/lib/capabilities";
 import { UPSTREAM_ORIGIN } from "@/data/upstreams";
 
