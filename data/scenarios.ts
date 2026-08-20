@@ -159,6 +159,105 @@ export function storeFor(scenario: Scenario): FixtureStore {
     : mergeFixtures(scenario.overrides, RECORDED_FIXTURES);
 }
 
+/**
+ * Vocabulary coverage, kept deliberately separate from the seven named
+ * scenarios.
+ *
+ * The sweep noticed something worth acting on: four of the ten reasons —
+ * `deadline`, `upstream_rate_limited`, `upstream_unconfigured` and
+ * `boundary_violation` — are produced by *no document* in the base
+ * cross-product. Not because they are wrong, but because no upstream happened to
+ * rate-limit, none was unprovisioned, and none returned a malformed 2xx during
+ * recording. A closed vocabulary with members nothing can produce is a claim
+ * about handling cases that are in fact unhandled, so each of these gets an
+ * authored store proving it is reachable and correctly shaped.
+ *
+ * These are **not** scenarios and are not presented as evidence about the world.
+ * A named scenario asserts what an upstream did; a probe asserts that this
+ * repo's vocabulary is exhaustive. Mixing them would let a simulated failure be
+ * read as an observed one, which is the specific dishonesty this repo is about.
+ */
+export type VocabularyProbe = {
+  reason: FieldReason;
+  company: string;
+  deadline_ms?: number;
+  overrides: readonly FixtureRecord[];
+  expect: ScenarioExpectation;
+};
+
+export const VOCABULARY_PROBES: readonly VocabularyProbe[] = [
+  {
+    // Only reachable when abandoning tier 0 overshoots badly enough to leave
+    // nothing at all. See amendment A5.
+    reason: "deadline",
+    // Tessellate, because reaching `deadline` needs a company bound to *both*
+    // tier 0 and a tier-1 capability — otherwise `unmapped` is reported first
+    // and correctly, and the probe measures the guard order instead of the
+    // budget.
+    company: "tessellate",
+    deadline_ms: 1000,
+    overrides: [
+      {
+        upstream: "domain_detective",
+        key: "Tessellate",
+        latency_ms: 9000,
+        overshoot_ms: 2000,
+        origin: "authored",
+        body: {},
+      },
+    ],
+    expect: { capability: "attributes", state: "not_attempted", reason: "deadline" },
+  },
+  {
+    reason: "upstream_rate_limited",
+    company: "tessellate",
+    overrides: [
+      {
+        upstream: "company_classifier",
+        key: "tessellate",
+        latency_ms: 90,
+        origin: "authored",
+        failure: { reason: "upstream_rate_limited", retry_after_s: 37, detail: "429 from company_classifier" },
+      },
+    ],
+    expect: { capability: "attributes", state: "unavailable", reason: "upstream_rate_limited" },
+  },
+  {
+    // Day 006 answers 501 when it has no model key — a real branch in that repo,
+    // just not the one its current deployment reaches.
+    reason: "upstream_unconfigured",
+    company: "ledgerloop",
+    overrides: [
+      {
+        upstream: "account_brief",
+        key: "c01",
+        latency_ms: 120,
+        origin: "authored",
+        failure: { reason: "upstream_unconfigured", detail: "501 from account_brief" },
+      },
+    ],
+    expect: { capability: "narrative", state: "unavailable", reason: "upstream_unconfigured" },
+  },
+  {
+    reason: "boundary_violation",
+    company: "vireo-labs",
+    overrides: [
+      {
+        upstream: "why_now",
+        key: "vireo-labs:vaultwright",
+        latency_ms: 200,
+        origin: "authored",
+        body: { companyId: "vireo-labs" },
+      },
+    ],
+    expect: { capability: "why_now", state: "unavailable", reason: "boundary_violation" },
+  },
+];
+
+export function probeStore(probe: VocabularyProbe): FixtureStore {
+  return mergeFixtures(probe.overrides, RECORDED_FIXTURES);
+}
+
 export function scenario(id: string): Scenario {
   const found = SCENARIOS.find((candidate) => candidate.id === id);
   if (!found) throw new Error(`no scenario '${id}'`);

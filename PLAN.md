@@ -589,6 +589,21 @@ without fabricating one. What does exist, on Tessellate: `domain` is `absent`,
 of answer in one document, none averaged. Observed rather than constructed, which
 is worth more than matching the original phrasing.
 
+**A7 — vocabulary probes, added at step 10.** The sweep's own report exposed
+something no invariant would have: four of the ten reasons — `deadline`,
+`upstream_rate_limited`, `upstream_unconfigured`, `boundary_violation` — are
+produced by **no document in the 9,828-document cross-product**. Not because they
+are wrong, but because during recording no upstream rate-limited, none was
+unprovisioned, and none returned a malformed 2xx.
+
+A closed vocabulary whose members nothing can produce is a claim to handle cases
+that are in fact unhandled. So each gets an authored probe proving it is reachable
+and correctly shaped, the sweep now *fails* if any reason is produced by neither
+a document nor a probe, and the probes are kept rigorously separate from the seven
+named scenarios: a scenario asserts what an upstream did, a probe asserts the
+vocabulary is exhaustive. Presenting a simulated failure as an observed one is
+the exact dishonesty this repo exists to object to.
+
 ## The 26 settled decisions
 
 1. **Thesis:** the response envelope is the product; sibling composition is its
