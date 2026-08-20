@@ -97,14 +97,26 @@ describe("the fixture store", () => {
     expect(() => fixtureTransport(FIXTURE_STORE)).not.toThrow();
   });
 
-  it("lets recordings win over authored records", () => {
+  it("keeps the counterfactual and the observed worlds apart", () => {
     // Both halves hold techstack_icp:northwind.example — a real 502 and an
-    // authored success. If authored won, a careless addition here would replace
-    // observed reality with a wish.
-    const merged = mergeFixtures(RECORDED_FIXTURES, AUTHORED_FIXTURES);
-    const record = merged.find((entry) => entry.upstream === "techstack_icp" && entry.key === "northwind.example");
-    expect(record?.origin).toBe("recorded");
-    expect(record?.failure?.reason).toBe("upstream_error");
+    // authored success. They are two different worlds, not two candidates for
+    // one slot, so each store answers with its own.
+    const counterfactual = FIXTURE_STORE.find(
+      (entry) => entry.upstream === "techstack_icp" && entry.key === "northwind.example",
+    );
+    expect(counterfactual?.origin).toBe("authored");
+    expect(counterfactual?.failure).toBeUndefined();
+
+    const observed = RECORDED_FIXTURES.find(
+      (entry) => entry.upstream === "techstack_icp" && entry.key === "northwind.example",
+    );
+    expect(observed?.origin).toBe("recorded");
+    expect(observed?.failure?.reason).toBe("upstream_error");
+  });
+
+  it("takes the first half on a collision, so order states intent", () => {
+    const merged = mergeFixtures(AUTHORED_FIXTURES, RECORDED_FIXTURES);
+    expect(merged.find((entry) => entry.key === "c01")?.origin).toBe("authored");
   });
 
   it("labels every record with where it came from", () => {

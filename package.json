@@ -11,7 +11,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "sweep": "vite-node -c vitest.config.mts scripts/sweep.mts",
-    "probe": "vite-node -c vitest.config.mts scripts/probe.mts"
+    "probe": "vite-node -c vitest.config.mts scripts/probe.mts",
+    "example:coverage": "vite-node -c vitest.config.mts examples/coverage-report.mts",
+    "example:stream": "vite-node -c vitest.config.mts examples/stream.mts"
   },
   "dependencies": {
     "next": "16.3.1",

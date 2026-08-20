@@ -50,6 +50,15 @@ function boxAt(fields: Record<string, Record<string, unknown>>, capability: stri
   return fields[capability]?.[key] as Box | undefined;
 }
 
+/**
+ * Every reason produced anywhere in this repo's evidence, from any of the three
+ * sources — the cross-product over the counterfactual world, the named scenarios
+ * over the observed one, and the vocabulary probes. A reason nothing can produce
+ * is a claim to handle a case that is unhandled, and only a check spanning all
+ * three notices.
+ */
+const producedReasons = new Set<string>();
+
 const failures: string[] = [];
 const fail = (invariant: string, detail: string) => failures.push(`[${invariant}] ${detail}`);
 
@@ -106,6 +115,7 @@ for (const entry of ROSTER) {
         }
 
         states.set(`${field.state}/${field.reason}`, (states.get(`${field.state}/${field.reason}`) ?? 0) + 1);
+        producedReasons.add(field.reason);
       }
 
       // ── 3. The dependency edge ───────────────────────────────────────────
@@ -251,6 +261,8 @@ for (const scenario of SCENARIOS) {
     }
   }
 
+  for (const summary of Object.values(document.capabilities)) producedReasons.add(summary.reason);
+
   const mark = problems.length === 0 ? "ok  " : "FAIL";
   console.log(`  ${mark} ${scenario.id.padEnd(30)} ${scenario.provenance}`);
   for (const problem of problems) fail(`scenario ${scenario.id}`, problem);
@@ -286,6 +298,7 @@ for (const probe of VOCABULARY_PROBES) {
     );
   } else {
     probedReasons.add(probe.reason);
+    producedReasons.add(probe.reason);
   }
 
   // The rate-limit probe also has to prove Retry-After survives the trip.
@@ -321,16 +334,16 @@ for (const reason of [
   "excluded_by_caller",
 ]) {
   if (!observedReasons.has(reason)) unreachedInSweep.push(reason);
-  if (!observedReasons.has(reason) && !probedReasons.has(reason)) unreachedAnywhere.push(reason);
+  if (!producedReasons.has(reason)) unreachedAnywhere.push(reason);
 }
 if (unreachedInSweep.length > 0) {
   console.log(
-    `\nProduced by no document in the cross-product, and covered by a probe instead: ${unreachedInSweep.join(", ")}`,
+    `\nProduced by no document in the cross-product — the counterfactual world has no outages — and covered by a ` +
+      `named scenario or a probe instead: ${unreachedInSweep.join(", ")}`,
   );
 }
 if (unreachedAnywhere.length > 0) {
-  // A reason nothing can produce is a claim to handle a case that is unhandled.
-  fail("vocabulary", `no document or probe produces: ${unreachedAnywhere.join(", ")}`);
+  fail("vocabulary", `nothing in the cross-product, the scenarios or the probes produces: ${unreachedAnywhere.join(", ")}`);
 }
 
 console.log("");

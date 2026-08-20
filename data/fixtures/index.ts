@@ -8,15 +8,28 @@ import recordedJson from "./recorded.json";
 import { AUTHORED_FIXTURES } from "./authored";
 
 /**
- * The fixture store: recordings first, authored records where the network cannot
- * answer, and a parse at import so a bad hand-edit fails the build rather than
- * the first request that happens to touch it.
+ * Two stores, deliberately not one.
  *
- * Precedence is recorded-over-authored, and it matters. Both halves contain
- * `techstack_icp:northwind.example` — the recording is a real 502, the authored
- * one is a working inspection. If authored records won, a single careless
- * addition here would quietly replace observed reality with a wish. So the
- * recorded half is loaded first and the authored half only fills gaps.
+ * The first attempt merged both halves with recordings winning, on the reasoning
+ * that an authored fixture must never quietly replace an observation. That
+ * reasoning is sound and the implementation was wrong: since every authored
+ * record exists *precisely because* the recording is a failure, recordings
+ * winning made the authored half unreachable. Day 006's brief could never appear
+ * in any document, and the "what this looks like when the upstreams work" column
+ * showed the same 404 as the live one.
+ *
+ * The honest fix is not a precedence rule, it is two named worlds:
+ *
+ *   `FIXTURE_STORE`        the counterfactual. Authored records win, because
+ *                          showing a complete document is the entire point of
+ *                          having them.
+ *   `RECORDED_ONLY_STORE`  what the deployments actually did, with no authored
+ *                          record anywhere near it.
+ *
+ * Nothing is silently substituted, because nothing is merged behind the reader's
+ * back: every record carries `origin`, the console labels the column, and the
+ * live transport goes to the real network. A wish and an observation are two
+ * columns rather than one blended row.
  */
 
 const failureSchema = z.object({
@@ -42,7 +55,7 @@ const recordSchema = z
 
 export const RECORDED_FIXTURES = recordSchema.array().parse(recordedJson) as unknown as readonly FixtureRecord[];
 
-/** Recordings win; authored records fill the gaps they leave. */
+/** First half wins on a collision. Order is the caller's statement of intent. */
 export function mergeFixtures(...halves: readonly FixtureStore[]): FixtureStore {
   const merged = new Map<string, FixtureRecord>();
   for (const half of halves) {
@@ -54,13 +67,16 @@ export function mergeFixtures(...halves: readonly FixtureStore[]): FixtureStore 
   return [...merged.values()];
 }
 
-export const FIXTURE_STORE: FixtureStore = mergeFixtures(RECORDED_FIXTURES, AUTHORED_FIXTURES);
+/**
+ * The counterfactual world. Authored first, so the four `.example` inspections
+ * and the three briefs actually reach a document.
+ */
+export const FIXTURE_STORE: FixtureStore = mergeFixtures(AUTHORED_FIXTURES, RECORDED_FIXTURES);
 
 /**
- * The live-shaped store: recordings only, so a "what does the network actually
- * do today" document can be produced without the network. Used by the console's
- * side-by-side view and by the sweep, where reaching out to six deployments
- * thousands of times would be both slow and rude.
+ * The observed world, replayable without touching the network — for the sweep,
+ * where reaching out to six deployments ten thousand times would be both slow and
+ * rude, and for the scenarios that assert what a deployment really did.
  */
 export const RECORDED_ONLY_STORE: FixtureStore = RECORDED_FIXTURES;
 
