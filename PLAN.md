@@ -503,6 +503,38 @@ for callers who accept the risk; authentication and per-caller quotas; batch
 input; webhooks; a general DAG scheduler; a second schema version so migration is
 demonstrated across two live versions rather than one deprecated field.
 
+## Amendments made during the build
+
+Recorded rather than folded in silently, so the plan stays readable as the
+contract it was signed off as.
+
+**A1 — `derivation_states`, added at step 5.** Day 014 reports each derived
+attribute in one of four terminal states: `derived`, `contested`,
+`insufficient`, `underdetermined`. Those distinctions are that repo's entire
+argument, and this repo's five states have one bucket for three of them:
+`unknown`. Adding a sixth state was rejected (decision 9 fixes five, and "ask
+another service" is not a state); mapping `contested` onto `resolved` with one
+of the competing values was rejected outright as the silent precedence both
+repos refuse. So `fields.attributes.derivation_states` is a resolved box
+carrying Day 014's own per-attribute vocabulary verbatim. Our envelope reports
+what it can offer and quotes what it cannot, rather than paraphrasing a richer
+vocabulary into a poorer one and pretending nothing was lost.
+
+**A2 — tolerant read extends to enum values, clarified at step 5.** Decision 26
+fixed tolerant-read/strict-require for *keys*. Enum values needed the same rule
+and it was not stated: an unrecognised `verdict.state` from Day 013 becomes
+`unknown`, not `boundary_violation`, because a new verdict is additive change.
+A *missing* `purposes` array is still a violation. New values are tolerated;
+absent structure is not.
+
+**A3 — the banned vocabulary governs authored identifiers, not quotations.**
+`signal-scout` returns `fit.score`, and a box's `value` may contain an upstream
+payload using words this repo bans. Quoting an upstream inside a box is not
+asserting it. What is banned is this repo *authoring* such an identifier — and
+accordingly Day 005's point total and fit band are dropped rather than
+re-exported as fields of ours, since re-exporting would launder another
+service's arithmetic into something that looks like our own judgement.
+
 ## The 26 settled decisions
 
 1. **Thesis:** the response envelope is the product; sibling composition is its

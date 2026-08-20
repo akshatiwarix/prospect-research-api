@@ -100,6 +100,16 @@ upstream are ignored so additive upstream change cannot break this service. A
 missing *required* field is `unavailable/boundary_violation` — never a throw,
 never a smuggled `null`.
 
+This extends to enum *values*: an unrecognised `verdict.state` from Day 013
+becomes `unknown`, because a new verdict is additive change. A missing
+`purposes` array is still a violation. Tolerate new values; do not tolerate
+absent structure.
+
+**Every capability contributes its whole key set, always.** A caller
+destructuring `fields.attributes.segment` must not have that key disappear
+because an upstream was down. `emptyFields` is generated from `contributes` for
+exactly this reason — do not hand-write an unhappy path.
+
 **The console gets no privileges.** It is a client of the published API. Every
 field it renders must exist in `/api/schema`, asserted by sweep invariant 8. No
 server-side shortcuts, no undocumented fields, no importing `lib/scheduler/`
@@ -120,6 +130,12 @@ A number implying calibrated belief would be unearned, and inherited from Days
 Also banned: `null` as a field value, `unclear` as an enum member, and
 `fallback` as a verb describing what to do when an upstream fails. There is no
 fallback; there is a state.
+
+The rule governs identifiers **this repo authors**. An upstream payload quoted
+verbatim inside a box's `value` is a quotation, not an assertion — `signal-scout`
+returns `fit.score` and that is its word, not ours. What is forbidden is
+re-exporting such a number as a field of our own, which would launder another
+service's arithmetic into something that reads as this service's judgement.
 
 ## Determinism
 
