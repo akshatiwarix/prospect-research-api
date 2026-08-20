@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { BudgetLedger } from "./BudgetLedger";
 import { CoverageMatrix } from "./CoverageMatrix";
 import { DocumentView } from "./DocumentView";
+import { Exports } from "./Exports";
 import { Mono, Panel } from "./ui";
 import type { Directory, ResearchDocument } from "./types";
 
@@ -183,6 +184,15 @@ export function Console() {
           {live && (
             <Panel title="Budget ledger — live" subtitle="Real clock, real deployments, right now.">
               <BudgetLedger document={live} />
+            </Panel>
+          )}
+
+          {fixture && (
+            <Panel title="Exports" subtitle="The CSV is built by the API, not the browser — one format, one implementation.">
+              <Exports
+                document={fixture}
+                request={{ company, deadline_ms: deadline, capabilities: selected, transport: "fixture" }}
+              />
             </Panel>
           )}
         </div>
